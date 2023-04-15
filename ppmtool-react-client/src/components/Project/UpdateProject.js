@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getProject, createProject } from "../../actions/projectActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import classnames from "classnames";
+import classNames from "classnames";
 
 class UpdateProject extends Component {
   //set state
@@ -45,7 +45,7 @@ class UpdateProject extends Component {
   //     };
   //   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, prevState) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
@@ -105,7 +105,7 @@ class UpdateProject extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className={classnames("form-control form-control-lg", {
+                    className={classNames("form-control form-control-lg", {
                       "is-invalid": errors.projectName,
                     })}
                     placeholder="Project Name"
@@ -130,7 +130,7 @@ class UpdateProject extends Component {
                 </div>
                 <div className="form-group">
                   <textarea
-                    className={classnames("form-control form-control-lg", {
+                    className={classNames("form-control form-control-lg", {
                       "is-invalid": errors.description,
                     })}
                     placeholder="Project Description"
