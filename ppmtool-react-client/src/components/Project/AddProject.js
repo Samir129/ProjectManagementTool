@@ -21,12 +21,6 @@ class AddProject extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.errors) {
       return { errors: nextProps.errors };
