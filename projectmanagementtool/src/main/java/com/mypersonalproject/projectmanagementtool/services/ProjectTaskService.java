@@ -1,5 +1,6 @@
 package com.mypersonalproject.projectmanagementtool.services;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.mypersonalproject.projectmanagementtool.domain.Backlog;
 import com.mypersonalproject.projectmanagementtool.domain.Project;
 import com.mypersonalproject.projectmanagementtool.domain.ProjectTask;
@@ -56,6 +57,7 @@ public class ProjectTaskService {
             return projectTaskRepository.save(projectTask);
         }
         catch(Exception e){
+            e.printStackTrace();
             throw new ProjectNotFoundException("Project Not Found");
         }
     }
