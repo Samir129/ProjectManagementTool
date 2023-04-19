@@ -25,7 +25,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
 
-        // TO_DO
+        project_tasks: state.project_tasks.filter(
+          (project_task) => project_task.projectSequence !== action.payload
+        ),
       };
     default:
       return state;
