@@ -4,11 +4,14 @@ import com.mypersonalproject.projectmanagementtool.domain.Backlog;
 import com.mypersonalproject.projectmanagementtool.domain.Project;
 import com.mypersonalproject.projectmanagementtool.domain.User;
 import com.mypersonalproject.projectmanagementtool.exceptions.ProjectIdException;
+import com.mypersonalproject.projectmanagementtool.exceptions.ProjectNotFoundException;
 import com.mypersonalproject.projectmanagementtool.repositories.BacklogRepository;
 import com.mypersonalproject.projectmanagementtool.repositories.ProjectRepository;
 import com.mypersonalproject.projectmanagementtool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 public class ProjectService {
@@ -46,26 +49,26 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId, String userName){
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
         if(project == null){
             throw new ProjectIdException("Project does not exist.");
         }
 
+        if(!project.getProjectLeader().equals(userName))
+            throw new ProjectNotFoundException("Project not found in your account");
+
+
         return project;
     }
 
-    public Iterable<Project> findAllProjects(){
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String userName){
+
+        return projectRepository.findByProjectLeader(userName);
     }
 
-    public void deleteProjectByIdentifier(String projectId){
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
-
-        if(project == null){
-            throw new ProjectIdException("Cannot delete project with ID '" + projectId + "'. Does not exist.");
-        }
-        projectRepository.delete(project);
+    public void deleteProjectByIdentifier(String projectId, String username){
+        projectRepository.delete(findProjectByIdentifier(projectId, username));
     }
 }
